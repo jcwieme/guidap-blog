@@ -1,5 +1,5 @@
 <template>
-  <img :src="src" :alt="alt" :class="propsClass" />
+  <img :src="src" :alt="alt" />
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div class="logo login__logo">
+    <div class="login__logo">
       <ImageCpt :src="logoPath" alt="#" />
     </div>
     <div class="login__container">
