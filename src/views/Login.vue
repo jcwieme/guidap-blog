@@ -1,10 +1,10 @@
 <template>
   <div class="login">
     <div class="logo login__logo">
-      <img src="@/assets/logo.png" alt="#" />
+      <ImageCpt :src="logoPath" alt="#" />
     </div>
     <div class="login__container">
-      <h2>Login</h2>
+      <Title text="Login" type="h2" />
       <Input
         type="text"
         name="username"
@@ -27,12 +27,21 @@
 <script>
 import Button from "@/components/form/Button";
 import Input from "@/components/form/Input";
+import Title from "@/components/basics/Title";
+import ImageCpt from "@/components/basics/Image";
 
 export default {
   name: "Login",
   components: {
     Button,
     Input,
+    Title,
+    ImageCpt,
+  },
+  data() {
+    return {
+      logoPath: require("@/assets/logo.png"),
+    };
   },
   methods: {
     login() {
