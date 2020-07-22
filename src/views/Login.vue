@@ -14,27 +14,32 @@
       />
       <Input
         type="password"
-        name="paswword"
+        name="password"
         id="password"
         placeholder="Password"
         propsClass="input__login input__login--password"
       />
-      <Button text="Let's go" propsClass="button__login" />
+      <Button text="Let's go" propsClass="button__login" :action="login" />
     </div>
   </div>
 </template>
 
 <script>
-import Button from '@/components/form/Button'
-import Input from '@/components/form/Input'
+import Button from "@/components/form/Button";
+import Input from "@/components/form/Input";
 
 export default {
-  name: 'Login',
+  name: "Login",
   components: {
     Button,
     Input,
   },
-}
+  methods: {
+    login() {
+      this.$store.dispatch("login");
+    },
+  },
+};
 </script>
 
 <style lang="scss">

@@ -1,21 +1,27 @@
 <template>
-  <button class="button" :class="propsClass">{{ text }}</button>
+  <button class="button" :class="propsClass" @click="action">{{ text }}</button>
 </template>
 
 <script>
 export default {
-  name: 'Button',
+  name: "Button",
   props: {
     text: {
       type: String,
-      default: 'Button',
+      default: "Button",
     },
     propsClass: {
       type: String,
-      default: '',
+      default: "",
+    },
+    action: {
+      type: Function,
+      default: () => {
+        return;
+      },
     },
   },
-}
+};
 </script>
 
 <style lang="scss">

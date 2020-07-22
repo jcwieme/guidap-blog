@@ -6,35 +6,46 @@
     :placeholder="placeholder"
     class="input"
     :class="propsClass"
+    v-model="input"
   />
 </template>
 
 <script>
 export default {
-  name: 'Input',
+  name: "Input",
   props: {
     type: {
       type: String,
-      default: 'text',
+      default: "text",
     },
     name: {
       type: String,
-      default: 'name',
+      default: "name",
     },
     id: {
       type: String,
-      default: 'id',
+      default: "id",
     },
     placeholder: {
       type: String,
-      default: 'Text',
+      default: "Text",
     },
     propsClass: {
       type: String,
-      default: '',
+      default: "",
     },
   },
-}
+  data: function() {
+    return {
+      input: "",
+    };
+  },
+  watch: {
+    input: function(value) {
+      this.$store.commit("TYPE_INPUT", { name: this.name, input: value });
+    },
+  },
+};
 </script>
 
 <style lang="scss">
