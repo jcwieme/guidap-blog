@@ -1,38 +1,38 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Admin from "../views/Admin.vue";
-import Login from "../views/Login.vue";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Admin from '../views/Admin.vue'
+import Login from '../views/Login.vue'
 
-import store from "../store/index";
+import store from '../store/index'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/",
-    name: "Login",
+    path: '/',
+    name: 'Login',
     component: Login,
   },
   {
-    path: "/admin",
-    name: "Admin",
+    path: '/admin',
+    name: 'Admin',
     component: Admin,
     // Route Guard if logged or not
     beforeEnter(to, from, next) {
-      store.dispatch("checkToken");
+      store.dispatch('checkToken')
       if (store.state.tokenId) {
-        next();
+        next()
       } else {
-        next("/");
+        next('/')
       }
     },
   },
-];
+]
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
-});
+})
 
-export default router;
+export default router

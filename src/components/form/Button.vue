@@ -7,7 +7,7 @@
       color ? 'button--' + color : '',
       disabled ? 'button--disabled' : '',
     ]"
-    @click="[action(), propsClass === 'button__login' ? clicked() : '']"
+    @click=";[action(), propsClass === 'button__login' ? clicked() : '']"
   >
     <span v-if="propsClass === 'button__login'">
       <span v-if="!isClicked">{{ text }}</span>
@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import Loader from "@/components/basics/Loader";
-import AddLogo from "@/components/basics/AddLogo";
+import Loader from '@/components/basics/Loader'
+import AddLogo from '@/components/basics/AddLogo'
 
 export default {
-  name: "Button",
+  name: 'Button',
   components: {
     Loader,
     AddLogo,
@@ -33,12 +33,12 @@ export default {
   data() {
     return {
       isClicked: false,
-    };
+    }
   },
   props: {
     text: {
       type: String,
-      default: "Button",
+      default: 'Button',
     },
     propsClass: {
       type: String,
@@ -55,28 +55,28 @@ export default {
     action: {
       type: Function,
       default: () => {
-        return;
+        return
       },
     },
   },
   methods: {
     clicked() {
-      this.isClicked = true;
+      this.isClicked = true
     },
   },
   computed: {
     err: function() {
-      return this.$store.state.err;
+      return this.$store.state.err
     },
   },
   watch: {
     err: function(value) {
       if (value !== null) {
-        this.isClicked = false;
+        this.isClicked = false
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss">

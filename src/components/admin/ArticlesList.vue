@@ -26,12 +26,12 @@
 </template>
 
 <script>
-import Button from "@/components/form/Button";
-import Title from "@/components/basics/Title";
-import List from "@/components/list/List";
+import Button from '@/components/form/Button'
+import Title from '@/components/basics/Title'
+import List from '@/components/list/List'
 
 export default {
-  name: "ArticlesList",
+  name: 'ArticlesList',
   components: {
     Button,
     Title,
@@ -45,31 +45,31 @@ export default {
     action: {
       type: Function,
       default: () => {
-        return;
+        return
       },
     },
   },
   computed: {
     pageNumbers: function() {
-      return Math.ceil(this.posts.length / 5);
+      return Math.ceil(this.posts.length / 5)
     },
     currentPage: function() {
-      return this.$store.state.currentPage;
+      return this.$store.state.currentPage
     },
   },
   methods: {
     nextHandler() {
       if (this.currentPage < this.pageNumbers) {
-        this.$store.commit("INC_PAGE");
+        this.$store.commit('INC_PAGE')
       }
     },
     beforeHandler() {
       if (this.currentPage > 1) {
-        this.$store.commit("DEC_PAGE");
+        this.$store.commit('DEC_PAGE')
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss">

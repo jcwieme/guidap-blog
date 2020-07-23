@@ -4,18 +4,18 @@
 
 <script>
 export default {
-  name: "Title",
+  name: 'Title',
   props: {
     text: {
       type: String,
-      default: "",
+      default: '',
     },
     type: {
       type: String,
-      default: "h1",
+      default: 'h1',
     },
   },
-};
+}
 </script>
 
 <style lang="scss"></style>

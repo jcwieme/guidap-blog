@@ -13,27 +13,27 @@
 
 <script>
 export default {
-  name: "Input",
+  name: 'Input',
   props: {
     type: {
       type: String,
-      default: "text",
+      default: 'text',
     },
     name: {
       type: String,
-      default: "name",
+      default: 'name',
     },
     id: {
       type: String,
-      default: "id",
+      default: 'id',
     },
     placeholder: {
       type: String,
-      default: "Text",
+      default: 'Text',
     },
     propsClass: {
       type: String,
-      default: "",
+      default: '',
     },
     autocomplete: {
       type: Boolean,
@@ -41,24 +41,24 @@ export default {
     },
     input: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   data() {
     return {
       inputData: this.$props.input,
-    };
+    }
   },
   watch: {
     inputData: function(value) {
-      this.$store.commit("TYPE_INPUT", { name: this.name, input: value });
+      this.$store.commit('TYPE_INPUT', { name: this.name, input: value })
 
-      if (this.name === "username" || this.name === "password") {
-        this.$store.commit("SET_ERROR", null);
+      if (this.name === 'username' || this.name === 'password') {
+        this.$store.commit('SET_ERROR', null)
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss">

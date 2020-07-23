@@ -29,16 +29,16 @@
 </template>
 
 <script>
-import ArticlesList from "@/components/admin/ArticlesList";
-import ArticleForm from "@/components/admin/ArticleForm";
+import ArticlesList from '@/components/admin/ArticlesList'
+import ArticleForm from '@/components/admin/ArticleForm'
 
-import ImageCpt from "@/components/basics/Image";
-import Loader from "@/components/basics/Loader";
+import ImageCpt from '@/components/basics/Image'
+import Loader from '@/components/basics/Loader'
 
-import types from "@/store/types";
+import types from '@/store/types'
 
 export default {
-  name: "Admin",
+  name: 'Admin',
   components: {
     ImageCpt,
     Loader,
@@ -47,57 +47,57 @@ export default {
   },
   data() {
     return {
-      logoPath: require("@/assets/logo.png"),
+      logoPath: require('@/assets/logo.png'),
       titleToEdit: null,
       textToEdit: null,
-    };
+    }
   },
   computed: {
     posts: function() {
-      return this.$store.state.posts;
+      return this.$store.state.posts
     },
     isAddingOrEditing: function() {
-      return this.$store.state.isEditing;
+      return this.$store.state.isEditing
     },
     idEditing: function() {
-      return this.$store.state.idEditing;
+      return this.$store.state.idEditing
     },
   },
   methods: {
     addOrEditFrameHandler(id) {
       if (id) {
-        this.$store.commit(types.SET_ID, id);
+        this.$store.commit(types.SET_ID, id)
         this.titleToEdit = this.$store.state.posts.filter(
-          (el) => el.id == this.idEditing
-        )[0].title;
+          el => el.id == this.idEditing,
+        )[0].title
         this.textToEdit = this.$store.state.posts.filter(
-          (el) => el.id == this.idEditing
-        )[0].body;
+          el => el.id == this.idEditing,
+        )[0].body
         this.$store.commit(types.TYPE_INPUT, {
-          name: "title",
+          name: 'title',
           input: this.titleToEdit,
-        });
+        })
         this.$store.commit(types.TYPE_INPUT, {
-          name: "text",
+          name: 'text',
           input: this.textToEdit,
-        });
+        })
       }
-      this.$store.commit(types.SET_BOOL, { name: "isEditing", bool: true });
+      this.$store.commit(types.SET_BOOL, { name: 'isEditing', bool: true })
     },
     addOrEditHandler() {
       if (this.idEditing) {
-        this.$store.dispatch("editPost", this.idEditing);
-        console.log("edited");
+        this.$store.dispatch('editPost', this.idEditing)
+        console.log('edited')
       } else {
-        this.$store.dispatch("addPost");
-        console.log("added");
+        this.$store.dispatch('addPost')
+        console.log('added')
       }
     },
     deleteHandler(id) {
-      console.log(id);
+      console.log(id)
     },
   },
-};
+}
 </script>
 
 <style lang="scss">

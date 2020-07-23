@@ -13,15 +13,15 @@
 
 <script>
 export default {
-  name: "Textarea",
+  name: 'Textarea',
   props: {
     id: {
       type: String,
-      default: "textarea",
+      default: 'textarea',
     },
     name: {
       type: String,
-      default: "textarea",
+      default: 'textarea',
     },
     row: {
       type: Number,
@@ -33,29 +33,29 @@ export default {
     },
     placeholder: {
       type: String,
-      default: "Text here...",
+      default: 'Text here...',
     },
     propsClass: {
       type: String,
-      default: "",
+      default: '',
     },
     input: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   data() {
     return {
       inputText: this.$props.input,
-    };
+    }
   },
   watch: {
     inputText: function(value) {
-      this.$store.commit("TYPE_INPUT", { name: this.name, input: value });
-      this.$store.commit("SET_ERROR", null);
+      this.$store.commit('TYPE_INPUT', { name: this.name, input: value })
+      this.$store.commit('SET_ERROR', null)
     },
   },
-};
+}
 </script>
 
 <style lang="scss">
@@ -67,7 +67,7 @@ export default {
 
   &::placeholder {
     color: lighten($color: #2c3e50, $amount: 25);
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
   }
   &--adminEdit {
     margin-bottom: 20px;

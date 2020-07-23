@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import Element from "./Element";
+import Element from './Element'
 
 export default {
-  name: "List",
+  name: 'List',
   props: {
     data: {
       type: Array,
@@ -24,7 +24,7 @@ export default {
     action: {
       type: Function,
       default: () => {
-        return;
+        return
       },
     },
   },
@@ -33,10 +33,10 @@ export default {
   },
   computed: {
     page: function() {
-      return this.$store.state.currentPage;
+      return this.$store.state.currentPage
     },
   },
-};
+}
 </script>
 
 <style lang="scss">

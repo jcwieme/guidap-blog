@@ -35,13 +35,13 @@
 </template>
 
 <script>
-import Input from "@/components/form/Input";
-import Textarea from "@/components/form/Textarea";
-import Button from "@/components/form/Button";
-import Title from "@/components/basics/Title";
+import Input from '@/components/form/Input'
+import Textarea from '@/components/form/Textarea'
+import Button from '@/components/form/Button'
+import Title from '@/components/basics/Title'
 
 export default {
-  name: "ArticleForm",
+  name: 'ArticleForm',
   components: {
     Input,
     Textarea,
@@ -52,29 +52,29 @@ export default {
     action: {
       type: Function,
       default: () => {
-        return;
+        return
       },
     },
     actionDelete: {
       type: Function,
       default: () => {
-        return;
+        return
       },
     },
     title: {
       type: String,
-      default: "",
+      default: '',
     },
     text: {
       type: String,
-      default: "",
+      default: '',
     },
     id: {
       type: Number,
       default: null,
     },
   },
-};
+}
 </script>
 
 <style lang="scss">

@@ -4,29 +4,29 @@
     <p>
       {{
         text
-          .split(" ")
+          .split(' ')
           .slice(0, 8)
-          .join(" ") + "..."
+          .join(' ') + '...'
       }}
     </p>
   </li>
 </template>
 
 <script>
-import Title from "@/components/basics/Title";
+import Title from '@/components/basics/Title'
 export default {
-  name: "Element",
+  name: 'Element',
   components: {
     Title,
   },
   props: {
     title: {
       type: String,
-      default: "",
+      default: '',
     },
     text: {
       type: String,
-      default: "",
+      default: '',
     },
     id: {
       type: Number,
@@ -35,11 +35,11 @@ export default {
     action: {
       type: Function,
       default: () => {
-        return;
+        return
       },
     },
   },
-};
+}
 </script>
 
 <style></style>

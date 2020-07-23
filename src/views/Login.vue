@@ -28,13 +28,13 @@
 </template>
 
 <script>
-import Button from "@/components/form/Button";
-import Input from "@/components/form/Input";
-import Title from "@/components/basics/Title";
-import ImageCpt from "@/components/basics/Image";
+import Button from '@/components/form/Button'
+import Input from '@/components/form/Input'
+import Title from '@/components/basics/Title'
+import ImageCpt from '@/components/basics/Image'
 
 export default {
-  name: "Login",
+  name: 'Login',
   components: {
     Button,
     Input,
@@ -43,20 +43,20 @@ export default {
   },
   data() {
     return {
-      logoPath: require("@/assets/logo.png"),
-    };
+      logoPath: require('@/assets/logo.png'),
+    }
   },
   computed: {
     error: function() {
-      return this.$store.state.err;
+      return this.$store.state.err
     },
   },
   methods: {
     login() {
-      this.$store.dispatch("login");
+      this.$store.dispatch('login')
     },
   },
-};
+}
 </script>
 
 <style lang="scss">

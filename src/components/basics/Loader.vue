@@ -21,14 +21,14 @@
 
 <script>
 export default {
-  name: "Loader",
+  name: 'Loader',
   props: {
     propsClass: {
       type: String,
-      default: "",
+      default: '',
     },
   },
-};
+}
 </script>
 
 <style lang="scss">

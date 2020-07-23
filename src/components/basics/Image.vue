@@ -4,22 +4,22 @@
 
 <script>
 export default {
-  name: "ImageCpt",
+  name: 'ImageCpt',
   props: {
     src: {
       type: String,
-      default: "",
+      default: '',
     },
     alt: {
       type: String,
-      default: "",
+      default: '',
     },
     propsClass: {
       type: String,
-      default: "",
+      default: '',
     },
   },
-};
+}
 </script>
 
 <style></style>
