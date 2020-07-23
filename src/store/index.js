@@ -55,6 +55,8 @@ const store = new Vuex.Store({
           commit("RESET_INPUTS", ["username", "password"]);
           commit("SET_CLICK", false);
           dispatch("getPosts");
+          // Avoid Error
+          router.push("/admin").catch(() => {});
         })
         .catch((err) => {
           console.log(err);
@@ -72,9 +74,6 @@ const store = new Vuex.Store({
         })
         .then((res) => {
           commit("SET_POSTS", res.data);
-
-          // Avoid Error
-          router.push("/admin").catch(() => {});
         })
         .catch((err) => console.log(err));
     },
