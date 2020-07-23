@@ -171,5 +171,16 @@ export default {
       background-color: transparent;
     }
   }
+
+  @media screen and (max-width: 1024px) {
+    &__add {
+      width: auto;
+      height: auto;
+
+      padding: 5px 15px;
+
+      border-radius: 20px;
+    }
+  }
 }
 </style>

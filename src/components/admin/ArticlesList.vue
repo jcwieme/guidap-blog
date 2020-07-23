@@ -115,5 +115,26 @@ export default {
     justify-content: space-around;
     align-items: center;
   }
+
+  @media screen and (max-width: 1024px) {
+    &__panel {
+      justify-content: space-evenly;
+    }
+    &__header {
+      padding: 5px 10px;
+      height: 10%;
+
+      h2 {
+        font-size: 26px;
+      }
+    }
+
+    &__pages {
+      height: 10%;
+    }
+    &__list {
+      height: 75%;
+    }
+  }
 }
 </style>

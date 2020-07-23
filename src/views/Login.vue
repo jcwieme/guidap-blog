@@ -121,5 +121,28 @@ export default {
 
     border-radius: 35px;
   }
+
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+
+    &__logo {
+      width: 100%;
+      height: 40%;
+    }
+
+    &__container {
+      width: 100%;
+      height: 60%;
+      padding: 20px 0;
+
+      h2 {
+        margin-bottom: 30px;
+      }
+    }
+
+    &__error {
+      margin: 0;
+    }
+  }
 }
 </style>

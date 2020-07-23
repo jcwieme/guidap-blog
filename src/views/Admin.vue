@@ -147,5 +147,21 @@ export default {
     width: 80%;
     height: 75%;
   }
+
+  @media screen and (max-width: 1024px) {
+    &__container {
+      width: 90%;
+      height: 90%;
+    }
+
+    &__logo {
+      height: 20%;
+      padding: 10px 0;
+    }
+
+    &__view {
+      height: 80%;
+    }
+  }
 }
 </style>
