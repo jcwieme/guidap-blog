@@ -23,7 +23,7 @@ const store = new Vuex.Store({
       state.inputs[data.name] = data.input;
     },
     SET_TOKEN: (state, token) => {
-      localStorage.setItem("token", token);
+      sessionStorage.setItem("token", token);
       state.tokenId = token;
     },
     RESET_INPUTS: (state, inputs) => {
@@ -72,13 +72,15 @@ const store = new Vuex.Store({
         })
         .then((res) => {
           commit("SET_POSTS", res.data);
-          router.replace("/admin");
+
+          // Avoid Error
+          router.push("/admin").catch(() => {});
         })
         .catch((err) => console.log(err));
     },
     checkToken({ commit }) {
       if (localStorage.getItem("token")) {
-        commit("SET_TOKEN", localStorage.getItem("token"));
+        commit("SET_TOKEN", sessionStorage.getItem("token"));
         this.dispatch("getPosts");
       }
     },
