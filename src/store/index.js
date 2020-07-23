@@ -22,7 +22,8 @@ const store = new Vuex.Store({
     TYPE_INPUT: (state, data) => {
       state.inputs[data.name] = data.input;
     },
-    TOKEN_STATE: (state, token) => {
+    SET_TOKEN: (state, token) => {
+      localStorage.setItem("token", token);
       state.tokenId = token;
     },
     RESET_INPUTS: (state, inputs) => {
@@ -50,7 +51,7 @@ const store = new Vuex.Store({
         })
         .then((res) => {
           console.log(res);
-          commit("TOKEN_STATE", res.data.token);
+          commit("SET_TOKEN", res.data.token);
           commit("RESET_INPUTS", ["username", "password"]);
           commit("SET_CLICK", false);
           dispatch("getPosts");
@@ -74,6 +75,12 @@ const store = new Vuex.Store({
           router.replace("/admin");
         })
         .catch((err) => console.log(err));
+    },
+    checkToken({ commit }) {
+      if (localStorage.getItem("token")) {
+        commit("SET_TOKEN", localStorage.getItem("token"));
+        this.dispatch("getPosts");
+      }
     },
   },
   modules: {},

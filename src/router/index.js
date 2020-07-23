@@ -17,8 +17,9 @@ const routes = [
     path: "/admin",
     name: "Admin",
     component: Admin,
-    // Route Guardif logged or not
+    // Route Guard if logged or not
     beforeEnter(to, from, next) {
+      store.dispatch("checkToken");
       if (store.state.tokenId) {
         next();
       } else {
