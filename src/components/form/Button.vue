@@ -1,24 +1,21 @@
 <template>
-  <button class="button" :class="propsClass" @click="[action(), clicked()]">
+  <button
+    class="button"
+    :class="[isClicked ? 'button--blue' : '', propsClass]"
+    @click="[action(), clicked()]"
+  >
     <span v-if="propsClass === 'button__login'">
       <span v-if="!isClicked">{{ text }}</span>
+      <Loader v-if="isClicked" propsClass="spinner__path--white" />
+    </span>
+    <span v-else-if="propsClass === 'button__add'">
       <svg
-        class="spinner"
-        width="25px"
-        height="25px"
-        viewBox="0 0 66 66"
         xmlns="http://www.w3.org/2000/svg"
-        v-if="isClicked"
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
       >
-        <circle
-          class="path"
-          fill="none"
-          stroke-width="6"
-          stroke-linecap="round"
-          cx="33"
-          cy="33"
-          r="30"
-        ></circle>
+        <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z" />
       </svg>
     </span>
     <span v-else>{{ text }}</span>
@@ -26,8 +23,12 @@
 </template>
 
 <script>
+import Loader from "@/components/basics/Loader";
 export default {
   name: "Button",
+  components: {
+    Loader,
+  },
   computed: {
     isClicked: function() {
       return this.$store.state.isClicked;
@@ -61,7 +62,7 @@ export default {
 .button {
   width: 80%;
   max-width: 350px;
-  padding: 20px 10px;
+  padding: 15px 10px;
   font-size: inherit;
   border-radius: 35px;
   outline: none;
@@ -76,8 +77,12 @@ export default {
 
   cursor: pointer;
 
+  &--blue {
+    background-color: #2c3e50;
+    color: #fff;
+  }
+
   &__login {
-    padding: 15px 10px;
     span {
       height: 25px;
       width: 100%;
@@ -92,61 +97,32 @@ export default {
       color: #fff;
     }
   }
-}
+  &__add {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-$offset: 187;
-$duration: 1.4s;
+    span {
+      height: 15px;
+      width: 15px;
+      display: block;
+    }
+    &:hover {
+      background-color: #2c3e50;
 
-.spinner {
-  animation: rotator $duration linear infinite;
-}
+      svg {
+        fill: #fff;
+      }
+    }
 
-@keyframes rotator {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(270deg);
-  }
-}
-
-.path {
-  stroke-dasharray: $offset;
-  stroke-dashoffset: 0;
-  transform-origin: center;
-  animation: dash $duration ease-in-out infinite,
-    colors ($duration * 4) ease-in-out infinite;
-}
-
-@keyframes colors {
-  0% {
-    stroke: #4285f4;
-  }
-  25% {
-    stroke: #de3e35;
-  }
-  50% {
-    stroke: #f7c223;
-  }
-  75% {
-    stroke: #1b9a59;
-  }
-  100% {
-    stroke: #4285f4;
-  }
-}
-
-@keyframes dash {
-  0% {
-    stroke-dashoffset: $offset;
-  }
-  50% {
-    stroke-dashoffset: $offset/4;
-    transform: rotate(135deg);
-  }
-  100% {
-    stroke-dashoffset: $offset;
-    transform: rotate(450deg);
+    svg {
+      transition: all 250ms ease-in;
+      fill: #2c3e50;
+    }
   }
 }
 </style>

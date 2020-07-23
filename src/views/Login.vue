@@ -77,6 +77,11 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    img {
+      width: 80%;
+      height: auto;
+    }
   }
 
   &__container {

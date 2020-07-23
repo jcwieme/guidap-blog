@@ -12,12 +12,20 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 body {
   font-size: 16px;
   font-family: "Roboto", sans-serif;
   color: #2c3e50;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+ul {
+  list-style: none;
 }
 
 .fade-enter-active,
