@@ -1,5 +1,5 @@
 <template>
-  <li class="list__el">
+  <li class="list__el" @click="action(id)">
     <Title :text="title" type="h3" />
     <p>
       {{
@@ -28,6 +28,16 @@ export default {
     text: {
       type: String,
       default: "",
+    },
+    id: {
+      type: Number,
+      default: null,
+    },
+    action: {
+      type: Function,
+      default: () => {
+        return;
+      },
     },
   },
 };

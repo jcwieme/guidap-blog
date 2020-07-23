@@ -8,72 +8,91 @@
         <ImageCpt :src="logoPath" alt="#" />
       </div>
       <div class="admin__view">
-        <div class="admin__panel">
-          <div class="admin__add">
-            <Title text="Articles" type="h2" />
-            <Button propsClass="button__add" />
-          </div>
-          <div class="admin__list">
-            <List :data="posts" />
-          </div>
-          <div class="admin__pages">pages num</div>
-        </div>
+        <transition name="fade" mode="out-in">
+          <ArticlesList
+            v-if="!isAddingOrEditing"
+            :posts="posts"
+            :action="addOrEditFrameHandler"
+          />
+          <ArticleForm
+            v-else
+            :action="addOrEditHandler"
+            :title="idEditing ? titleToEdit : null"
+            :text="idEditing ? textToEdit : null"
+            :id="idEditing"
+            :actionDelete="deleteHandler"
+          />
+        </transition>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import ArticlesList from "@/components/admin/ArticlesList";
+import ArticleForm from "@/components/admin/ArticleForm";
+
 import ImageCpt from "@/components/basics/Image";
-import Button from "@/components/form/Button";
-import Title from "@/components/basics/Title";
-import List from "@/components/list/List";
 import Loader from "@/components/basics/Loader";
+
+import types from "@/store/types";
 
 export default {
   name: "Admin",
   components: {
     ImageCpt,
-    Button,
-    Title,
-    List,
     Loader,
+    ArticlesList,
+    ArticleForm,
   },
   data() {
     return {
       logoPath: require("@/assets/logo.png"),
-      dummy: [
-        {
-          title: "title",
-          text:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae dolore vel minima rerum accusamus et vero esse velit porro quod laudantium quam assumenda eveniet, debitis architecto voluptates, dignissimos ut est.",
-        },
-        {
-          title: "title",
-          text:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae dolore vel minima rerum accusamus et vero esse velit porro quod laudantium quam assumenda eveniet, debitis architecto voluptates, dignissimos ut est.",
-        },
-        {
-          title: "title",
-          text:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae dolore vel minima rerum accusamus et vero esse velit porro quod laudantium quam assumenda eveniet, debitis architecto voluptates, dignissimos ut est.",
-        },
-        {
-          title: "title",
-          text:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae dolore vel minima rerum accusamus et vero esse velit porro quod laudantium quam assumenda eveniet, debitis architecto voluptates, dignissimos ut est.",
-        },
-        {
-          title: "title",
-          text:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae dolore vel minima rerum accusamus et vero esse velit porro quod laudantium quam assumenda eveniet, debitis architecto voluptates, dignissimos ut est.",
-        },
-      ],
+      idEditing: null,
+      titleToEdit: null,
+      textToEdit: null,
     };
   },
   computed: {
     posts: function() {
       return this.$store.state.posts;
+    },
+    isAddingOrEditing: function() {
+      return this.$store.state.isEditing;
+    },
+  },
+  methods: {
+    addOrEditFrameHandler(id) {
+      if (id) {
+        this.idEditing = id;
+        this.titleToEdit = this.$store.state.posts.filter(
+          (el) => el.id == this.idEditing
+        )[0].title;
+        this.textToEdit = this.$store.state.posts.filter(
+          (el) => el.id == this.idEditing
+        )[0].body;
+        this.$store.commit("TYPE_INPUT", {
+          name: "title",
+          input: this.titleToEdit,
+        });
+        this.$store.commit("TYPE_INPUT", {
+          name: "text",
+          input: this.textToEdit,
+        });
+      }
+      this.$store.commit(types.SET_BOOL, { name: "isEditing", bool: true });
+    },
+    addOrEditHandler() {
+      if (this.idEditing) {
+        this.$store.dispatch("editPost", this.idEditing);
+        console.log("edited");
+      } else {
+        this.$store.dispatch("addPost");
+        console.log("added");
+      }
+    },
+    deleteHandler(id) {
+      console.log(id);
     },
   },
 };
@@ -125,44 +144,6 @@ export default {
   &__view {
     width: 80%;
     height: 75%;
-  }
-
-  &__panel {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__add {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 10px 10px 20px 10px;
-    border-bottom: 1px solid #ececec;
-    height: 15%;
-
-    h2 {
-      font-size: 32px;
-      height: 32px;
-      line-height: 32px;
-      vertical-align: middle;
-    }
-  }
-
-  &__list {
-    width: 100%;
-    height: 70%;
-    // padding: 20px 0px;
-  }
-
-  &__pages {
-    height: 15%;
-    width: 100%;
-    text-align: center;
-    padding: 20px 0;
   }
 }
 </style>

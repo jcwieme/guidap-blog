@@ -6,7 +6,8 @@
     :placeholder="placeholder"
     class="input"
     :class="propsClass"
-    v-model="input"
+    v-model="inputData"
+    :autocomplete="autocomplete"
   />
 </template>
 
@@ -34,16 +35,27 @@ export default {
       type: String,
       default: "",
     },
+    autocomplete: {
+      type: Boolean,
+      default: false,
+    },
+    input: {
+      type: String,
+      default: "",
+    },
   },
-  data: function() {
+  data() {
     return {
-      input: "",
+      inputData: this.$props.input,
     };
   },
   watch: {
-    input: function(value) {
+    inputData: function(value) {
       this.$store.commit("TYPE_INPUT", { name: this.name, input: value });
-      this.$store.commit("SET_ERROR", null);
+
+      if (this.name === "username" || this.name === "password") {
+        this.$store.commit("SET_ERROR", null);
+      }
     },
   },
 };
@@ -55,6 +67,10 @@ export default {
   width: 80%;
   border: none;
   outline: none;
+
+  &::placeholder {
+    color: lighten($color: #2c3e50, $amount: 25);
+  }
 
   &__login {
     border-radius: 35px;
@@ -77,12 +93,18 @@ export default {
 
     &::placeholder {
       text-indent: 40px;
-      color: lighten($color: #2c3e50, $amount: 25);
     }
 
     &:last-of-type {
       margin-bottom: 40px;
     }
+  }
+
+  &__editTitle {
+    padding: 20px 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ececec;
+    width: 100%;
   }
 }
 </style>

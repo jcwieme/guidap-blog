@@ -1,10 +1,12 @@
 <template>
   <ul class="list">
     <Element
-      v-for="el in data"
+      v-for="el in data.slice(0, 5)"
       :key="el.id"
       :title="el.title"
       :text="el.body"
+      :id="el.id"
+      :action="action"
     />
   </ul>
 </template>
@@ -18,6 +20,12 @@ export default {
     data: {
       type: Array,
       default: new Array(),
+    },
+    action: {
+      type: Function,
+      default: () => {
+        return;
+      },
     },
   },
   components: {

@@ -1,8 +1,8 @@
 <template>
   <button
     class="button"
-    :class="[isClicked ? 'button--blue' : '', propsClass]"
-    @click="[action(), clicked()]"
+    :class="[isClicked ? 'button--blue' : '', propsClass, 'button--' + color]"
+    @click="[action(), propsClass === 'button__login' ? clicked() : '']"
   >
     <span v-if="propsClass === 'button__login'">
       <span v-if="!isClicked">{{ text }}</span>
@@ -24,6 +24,9 @@
 
 <script>
 import Loader from "@/components/basics/Loader";
+
+import types from "@/store/types";
+
 export default {
   name: "Button",
   components: {
@@ -43,6 +46,10 @@ export default {
       type: String,
       default: "",
     },
+    color: {
+      type: String,
+      default: "",
+    },
     action: {
       type: Function,
       default: () => {
@@ -52,7 +59,7 @@ export default {
   },
   methods: {
     clicked() {
-      this.$store.commit("SET_CLICK", true);
+      this.$store.commit(types.SET_BOOL, { name: "isClicked", bool: true });
     },
   },
 };
@@ -77,9 +84,24 @@ export default {
 
   cursor: pointer;
 
+  &:hover {
+    background-color: #2c3e50;
+    color: #fff;
+  }
+
   &--blue {
     background-color: #2c3e50;
     color: #fff;
+  }
+
+  &--red {
+    border-color: #fd4c43;
+    color: #fd4c43;
+
+    &:hover {
+      background-color: #fd4c43;
+      color: #fff;
+    }
   }
 
   &__login {
@@ -90,11 +112,6 @@ export default {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-    }
-
-    &:hover {
-      background-color: #2c3e50;
-      color: #fff;
     }
   }
   &__add {
@@ -112,8 +129,6 @@ export default {
       display: block;
     }
     &:hover {
-      background-color: #2c3e50;
-
       svg {
         fill: #fff;
       }
