@@ -7,7 +7,21 @@
     <div class="adminList__list">
       <List :data="posts" :action="action" />
     </div>
-    <div class="adminList__pages">pages num</div>
+    <div class="adminList__pages">
+      <Button
+        text="Previous"
+        propsClass="button__nav"
+        :disabled="currentPage <= 1"
+        :action="beforeHandler"
+      />
+      <p>{{ currentPage }} / {{ pageNumbers }}</p>
+      <Button
+        text="Next"
+        propsClass="button__nav"
+        :action="nextHandler"
+        :disabled="currentPage >= pageNumbers"
+      />
+    </div>
   </div>
 </template>
 
@@ -33,6 +47,26 @@ export default {
       default: () => {
         return;
       },
+    },
+  },
+  computed: {
+    pageNumbers: function() {
+      return Math.ceil(this.posts.length / 5);
+    },
+    currentPage: function() {
+      return this.$store.state.currentPage;
+    },
+  },
+  methods: {
+    nextHandler() {
+      if (this.currentPage < this.pageNumbers) {
+        this.$store.commit("INC_PAGE");
+      }
+    },
+    beforeHandler() {
+      if (this.currentPage > 1) {
+        this.$store.commit("DEC_PAGE");
+      }
     },
   },
 };
@@ -76,6 +110,10 @@ export default {
     width: 100%;
     text-align: center;
     padding: 20px 0;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
   }
 }
 </style>

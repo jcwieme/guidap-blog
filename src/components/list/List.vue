@@ -1,7 +1,7 @@
 <template>
   <ul class="list">
     <Element
-      v-for="el in data.slice(0, 5)"
+      v-for="el in data.slice(5 * (page - 1), 5 * page)"
       :key="el.id"
       :title="el.title"
       :text="el.body"
@@ -30,6 +30,11 @@ export default {
   },
   components: {
     Element,
+  },
+  computed: {
+    page: function() {
+      return this.$store.state.currentPage;
+    },
   },
 };
 </script>

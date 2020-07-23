@@ -6,8 +6,7 @@
         text
           .split(" ")
           .slice(0, 8)
-          .join(" ")
-          .replace(/[^\w\s]|_/g, "") + "..."
+          .join(" ") + "..."
       }}
     </p>
   </li>

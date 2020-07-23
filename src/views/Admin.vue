@@ -48,7 +48,6 @@ export default {
   data() {
     return {
       logoPath: require("@/assets/logo.png"),
-      idEditing: null,
       titleToEdit: null,
       textToEdit: null,
     };
@@ -60,22 +59,25 @@ export default {
     isAddingOrEditing: function() {
       return this.$store.state.isEditing;
     },
+    idEditing: function() {
+      return this.$store.state.idEditing;
+    },
   },
   methods: {
     addOrEditFrameHandler(id) {
       if (id) {
-        this.idEditing = id;
+        this.$store.commit(types.SET_ID, id);
         this.titleToEdit = this.$store.state.posts.filter(
           (el) => el.id == this.idEditing
         )[0].title;
         this.textToEdit = this.$store.state.posts.filter(
           (el) => el.id == this.idEditing
         )[0].body;
-        this.$store.commit("TYPE_INPUT", {
+        this.$store.commit(types.TYPE_INPUT, {
           name: "title",
           input: this.titleToEdit,
         });
-        this.$store.commit("TYPE_INPUT", {
+        this.$store.commit(types.TYPE_INPUT, {
           name: "text",
           input: this.textToEdit,
         });

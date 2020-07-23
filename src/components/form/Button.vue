@@ -1,7 +1,12 @@
 <template>
   <button
     class="button"
-    :class="[isClicked ? 'button--blue' : '', propsClass, 'button--' + color]"
+    :class="[
+      isClicked ? 'button--blue' : '',
+      propsClass,
+      color ? 'button--' + color : '',
+      disabled ? 'button--disabled' : '',
+    ]"
     @click="[action(), propsClass === 'button__login' ? clicked() : '']"
   >
     <span v-if="propsClass === 'button__login'">
@@ -9,14 +14,7 @@
       <Loader v-if="isClicked" propsClass="spinner__path--white" />
     </span>
     <span v-else-if="propsClass === 'button__add'">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="15"
-        height="15"
-        viewBox="0 0 24 24"
-      >
-        <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z" />
-      </svg>
+      <AddLogo />
     </span>
     <span v-else>{{ text }}</span>
   </button>
@@ -24,18 +22,18 @@
 
 <script>
 import Loader from "@/components/basics/Loader";
-
-import types from "@/store/types";
+import AddLogo from "@/components/basics/AddLogo";
 
 export default {
   name: "Button",
   components: {
     Loader,
+    AddLogo,
   },
-  computed: {
-    isClicked: function() {
-      return this.$store.state.isClicked;
-    },
+  data() {
+    return {
+      isClicked: false,
+    };
   },
   props: {
     text: {
@@ -44,11 +42,15 @@ export default {
     },
     propsClass: {
       type: String,
-      default: "",
+      default: null,
     },
     color: {
       type: String,
-      default: "",
+      default: null,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
     action: {
       type: Function,
@@ -59,7 +61,19 @@ export default {
   },
   methods: {
     clicked() {
-      this.$store.commit(types.SET_BOOL, { name: "isClicked", bool: true });
+      this.isClicked = true;
+    },
+  },
+  computed: {
+    err: function() {
+      return this.$store.state.err;
+    },
+  },
+  watch: {
+    err: function(value) {
+      if (value !== null) {
+        this.isClicked = false;
+      }
     },
   },
 };
@@ -137,6 +151,24 @@ export default {
     svg {
       transition: all 250ms ease-in;
       fill: #2c3e50;
+    }
+  }
+
+  &__nav {
+    width: 30%;
+    font-size: 12px;
+    padding: 10px 20px;
+  }
+
+  &--disabled {
+    color: lighten($color: #2c3e50, $amount: 30);
+    border-color: lighten($color: #2c3e50, $amount: 30);
+    cursor: unset;
+
+    &:hover {
+      color: lighten($color: #2c3e50, $amount: 30);
+      border-color: lighten($color: #2c3e50, $amount: 30);
+      background-color: transparent;
     }
   }
 }

@@ -19,8 +19,9 @@ const store = new Vuex.Store({
     tokenId: null,
     posts: null,
     err: null,
-    isClicked: false,
     isEditing: false,
+    idEditing: null,
+    currentPage: 1,
   },
   mutations: {
     TYPE_INPUT: (state, data) => {
@@ -45,33 +46,39 @@ const store = new Vuex.Store({
     SET_ERROR: (state, err) => {
       state.err = err;
     },
+    SET_ID: (state, id) => {
+      state.idEditing = id;
+    },
     SET_BOOL: (state, data) => {
       state[data.name] = data.bool;
     },
     RESET_POSTS: (state) => {
       state.posts = null;
     },
+    INC_PAGE: (state) => {
+      state.currentPage++;
+    },
+    DEC_PAGE: (state) => {
+      state.currentPage--;
+    },
   },
   actions: {
     login({ commit, state, dispatch }) {
+      commit(types.SET_ERROR, null);
       axios
         .post("/authentication_token", {
           username: state.inputs.username,
           password: state.inputs.password,
         })
         .then((res) => {
-          console.log(res);
           commit(types.SET_TOKEN, res.data.token);
           commit(types.RESET_INPUTS, ["username", "password"]);
-          commit(types.SET_BOOL, { name: "isClicked", bool: false });
           dispatch("getPosts");
           // Avoid Error
           router.push("/admin").catch(() => {});
         })
         .catch((err) => {
-          console.log(err);
           commit(types.SET_ERROR, err.response.status);
-          commit(types.SET_BOOL, { name: "isClicked", bool: false });
         });
     },
     getPosts({ state, commit }) {
@@ -83,7 +90,6 @@ const store = new Vuex.Store({
           },
         })
         .then((res) => {
-          console.log(res);
           commit(types.SET_POSTS, res.data);
         })
         .catch((err) => console.log(err));
@@ -103,13 +109,11 @@ const store = new Vuex.Store({
             },
           }
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           commit(types.RESET_POSTS);
           commit(types.SET_BOOL, { name: "isEditing", bool: false });
-          commit(types.SET_BOOL, { name: "isClicked", bool: false });
+          commit(types.RESET_INPUTS, ["title", "text"]);
           this.dispatch("getPosts");
-          router.push("/admin").catch(() => {});
         })
         .catch((err) => console.log(err));
     },
@@ -128,17 +132,32 @@ const store = new Vuex.Store({
             },
           }
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           commit(types.RESET_POSTS);
           commit(types.SET_BOOL, { name: "isEditing", bool: false });
-          commit(types.SET_BOOL, { name: "isClicked", bool: false });
+          commit(types.RESET_INPUTS, ["title", "text"]);
+          commit(types.SET_ID, null);
           this.dispatch("getPosts");
-          router.push("/admin").catch(() => {});
         })
         .catch((err) => console.log(err));
     },
-    deletePost() {},
+    deletePost({ state, commit }, id) {
+      axiosAPI
+        .delete(`/posts/${id}`, {
+          headers: {
+            Authorization: "Bearer " + state.tokenId,
+            accept: "application/json",
+          },
+        })
+        .then(() => {
+          commit(types.RESET_POSTS);
+          commit(types.SET_BOOL, { name: "isEditing", bool: false });
+          commit(types.RESET_INPUTS, ["title", "text"]);
+          commit(types.SET_ID, null);
+          this.dispatch("getPosts");
+        })
+        .catch((err) => console.log(err));
+    },
     checkToken({ commit }) {
       if (sessionStorage.getItem("token")) {
         commit(types.SET_TOKEN, sessionStorage.getItem("token"));

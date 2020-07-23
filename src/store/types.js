@@ -6,4 +6,5 @@ export default {
   SET_ERROR: "SET_ERROR",
   SET_BOOL: "SET_BOOL",
   RESET_POSTS: "RESET_POSTS",
+  SET_ID: "SET_ID",
 };

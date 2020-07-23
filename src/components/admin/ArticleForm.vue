@@ -20,12 +20,12 @@
       />
       <div v-if="id" class="adminEdit__btns">
         <Button propsClass="button__login" text="Edit it !" :action="action" />
-        <Button
+        <!-- <Button
           propsClass="button__login"
           color="red"
           text="Delete it :'("
           :action="actionDelete"
-        />
+        /> -->
       </div>
       <div v-else>
         <Button propsClass="button__login" text="Let's go !" :action="action" />
