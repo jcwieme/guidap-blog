@@ -20,6 +20,9 @@
         propsClass="input__login input__login--password"
       />
       <Button text="Let's go" propsClass="button__login" :action="login" />
+      <div class="login__error" v-show="error">
+        Bad username or password!
+      </div>
     </div>
   </div>
 </template>
@@ -42,6 +45,11 @@ export default {
     return {
       logoPath: require("@/assets/logo.png"),
     };
+  },
+  computed: {
+    error: function() {
+      return this.$store.state.err;
+    },
   },
   methods: {
     login() {
@@ -88,6 +96,25 @@ export default {
       padding-bottom: 5px;
       border-bottom: 5px solid #2c3e50;
     }
+  }
+
+  &__error {
+    margin: 20px 0px 40px;
+    background-color: #fd4c43;
+    width: 80%;
+    max-width: 350px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    border-radius: 35px;
   }
 }
 </style>

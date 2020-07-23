@@ -15,6 +15,8 @@ const store = new Vuex.Store({
     },
     tokenId: null,
     posts: null,
+    err: null,
+    isClicked: false,
   },
   mutations: {
     TYPE_INPUT: (state, data) => {
@@ -31,6 +33,12 @@ const store = new Vuex.Store({
     SET_POSTS: (state, posts) => {
       state.posts = posts;
     },
+    SET_ERROR: (state, err) => {
+      state.err = err;
+    },
+    SET_CLICK: (state, bool) => {
+      state.isClicked = bool;
+    },
   },
   actions: {
     // login({ commit }, authData) {
@@ -44,9 +52,14 @@ const store = new Vuex.Store({
           console.log(res);
           commit("TOKEN_STATE", res.data.token);
           commit("RESET_INPUTS", ["username", "password"]);
+          commit("SET_CLICK", false);
           dispatch("getPosts");
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          commit("SET_ERROR", err.response.status);
+          commit("SET_CLICK", false);
+        });
     },
     getPosts({ state, commit }) {
       axiosAPI

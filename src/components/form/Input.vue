@@ -43,6 +43,7 @@ export default {
   watch: {
     input: function(value) {
       this.$store.commit("TYPE_INPUT", { name: this.name, input: value });
+      this.$store.commit("SET_ERROR", null);
     },
   },
 };
