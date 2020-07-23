@@ -79,7 +79,7 @@ const store = new Vuex.Store({
         .catch((err) => console.log(err));
     },
     checkToken({ commit }) {
-      if (localStorage.getItem("token")) {
+      if (sessionStorage.getItem("token")) {
         commit("SET_TOKEN", sessionStorage.getItem("token"));
         this.dispatch("getPosts");
       }
