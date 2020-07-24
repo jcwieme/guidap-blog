@@ -18,6 +18,7 @@ Do not hesitate to have fun with it!
 ## Project setup
 
 (if you're using npm please delete **_yarn.lock_**)
+
 Don't forget to install nodes modules with :
 
 ```
@@ -46,7 +47,7 @@ npm run serve
 
 ### Compiles and minifies for production
 
-Do not forget to change the **_publicPath_** in **_vue.config.js_** before :
+Do not forget to change the **_publicPath_** in **_vue.config.js_** before : (your final app will be in **_dist_** folder)
 
 ```
 yarn build
