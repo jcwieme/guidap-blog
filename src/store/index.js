@@ -32,7 +32,9 @@ const store = new Vuex.Store({
       }
     },
     SET_TOKEN: (state, token) => {
-      sessionStorage.setItem('token', token)
+      if (token) {
+        localStorage.setItem('token', token)
+      }
       state.tokenId = token
     },
     RESET_INPUTS: (state, inputs) => {
@@ -71,15 +73,58 @@ const store = new Vuex.Store({
           password: state.inputs.password,
         })
         .then(res => {
+          //Set Token
           commit(types.SET_TOKEN, res.data.token)
+
+          // Reset inputs
           commit(types.RESET_INPUTS, ['username', 'password'])
+
+          // Set expiration date
+          const now = new Date()
+          const expirationDate = new Date(now.getTime() + 900000)
+          localStorage.setItem('expirationDate', expirationDate)
+          dispatch('setLogoutTimer')
+
+          // Get posts
           dispatch('getPosts')
-          // Avoid Error
+
+          // Redirect to admin and avoid Error
           router.push('/admin').catch(() => {})
         })
         .catch(err => {
           commit(types.SET_ERROR, err.response.status)
         })
+    },
+    logout({ commit }) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('expirationDate')
+      commit(types.SET_TOKEN, null)
+      router.replace('/')
+    },
+    tryAutoLogin({ commit }) {
+      // Check if token already exist
+      const token = localStorage.getItem('token')
+      if (!token) {
+        return
+      }
+
+      // Check if expiration is done
+      const expirationDate = localStorage.getItem('expirationDate')
+      const now = new Date()
+      if (now >= expirationDate) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('expirationDate')
+        return
+      }
+      commit(types.SET_TOKEN, token)
+      // Redirect to admin and avoid Error
+      router.push('/admin').catch(() => {})
+      this.dispatch('getPosts')
+    },
+    setLogoutTimer() {
+      setTimeout(() => {
+        this.dispatch('logout')
+      }, 900000)
     },
     getPosts({ state, commit }) {
       axiosAPI
@@ -140,29 +185,6 @@ const store = new Vuex.Store({
           this.dispatch('getPosts')
         })
         .catch(err => console.log(err))
-    },
-    deletePost({ state, commit }, id) {
-      axiosAPI
-        .delete(`/posts/${id}`, {
-          headers: {
-            Authorization: 'Bearer ' + state.tokenId,
-            accept: 'application/json',
-          },
-        })
-        .then(() => {
-          commit(types.RESET_POSTS)
-          commit(types.SET_BOOL, { name: 'isEditing', bool: false })
-          commit(types.RESET_INPUTS, ['title', 'text'])
-          commit(types.SET_ID, null)
-          this.dispatch('getPosts')
-        })
-        .catch(err => console.log(err))
-    },
-    checkToken({ commit }) {
-      if (sessionStorage.getItem('token')) {
-        commit(types.SET_TOKEN, sessionStorage.getItem('token'))
-        this.dispatch('getPosts')
-      }
     },
   },
   modules: {},

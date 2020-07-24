@@ -19,7 +19,6 @@ const routes = [
     component: Admin,
     // Route Guard if logged or not
     beforeEnter(to, from, next) {
-      store.dispatch('checkToken')
       if (store.state.tokenId) {
         next()
       } else {

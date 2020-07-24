@@ -6,6 +6,14 @@
   </div>
 </template>
 
+<script>
+export default {
+  created() {
+    this.$store.dispatch('tryAutoLogin')
+  },
+}
+</script>
+
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
 
