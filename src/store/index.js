@@ -42,20 +42,8 @@ const store = new Vuex.Store({
         state.inputs[name] = null
       })
     },
-    SET_POSTS: (state, posts) => {
-      state.posts = posts
-    },
-    SET_ERROR: (state, err) => {
-      state.err = err
-    },
-    SET_ID: (state, id) => {
-      state.idEditing = id
-    },
-    SET_BOOL: (state, data) => {
-      state[data.name] = data.bool
-    },
-    RESET_POSTS: state => {
-      state.posts = null
+    SET_OPTION: (state, payload) => {
+      state[payload.name] = payload.data
     },
     INC_PAGE: state => {
       state.currentPage++
@@ -66,7 +54,7 @@ const store = new Vuex.Store({
   },
   actions: {
     login({ commit, state, dispatch }) {
-      commit(types.SET_ERROR, null)
+      commit(types.SET_OPTION, { name: 'err', data: null })
       axios
         .post('/authentication_token', {
           username: state.inputs.username,
@@ -92,13 +80,18 @@ const store = new Vuex.Store({
           router.push('/admin').catch(() => {})
         })
         .catch(err => {
-          commit(types.SET_ERROR, err.response.status)
+          commit(types.SET_OPTION, { name: 'err', data: err.response.status })
         })
     },
     logout({ commit }) {
+      // Clear localstorage
       localStorage.removeItem('token')
       localStorage.removeItem('expirationDate')
+
+      // Clear token
       commit(types.SET_TOKEN, null)
+
+      // Redirect
       router.replace('/')
     },
     tryAutoLogin({ commit }) {
@@ -116,9 +109,14 @@ const store = new Vuex.Store({
         localStorage.removeItem('expirationDate')
         return
       }
+
+      // Set token
       commit(types.SET_TOKEN, token)
+
       // Redirect to admin and avoid Error
       router.push('/admin').catch(() => {})
+
+      // Get posts
       this.dispatch('getPosts')
     },
     setLogoutTimer() {
@@ -135,7 +133,7 @@ const store = new Vuex.Store({
           },
         })
         .then(res => {
-          commit(types.SET_POSTS, res.data)
+          commit(types.SET_OPTION, { name: 'posts', data: res.data })
         })
         .catch(err => console.log(err))
     },
@@ -155,9 +153,12 @@ const store = new Vuex.Store({
           },
         )
         .then(() => {
-          commit(types.RESET_POSTS)
-          commit(types.SET_BOOL, { name: 'isEditing', bool: false })
+          // Reset Posts to update
+          commit(types.SET_OPTION, { name: 'posts', data: null })
+          commit(types.SET_OPTION, { name: 'isEditing', data: false })
           commit(types.RESET_INPUTS, ['title', 'text'])
+
+          // Get new posts
           this.dispatch('getPosts')
         })
         .catch(err => console.log(err))
@@ -178,10 +179,13 @@ const store = new Vuex.Store({
           },
         )
         .then(() => {
-          commit(types.RESET_POSTS)
-          commit(types.SET_BOOL, { name: 'isEditing', bool: false })
+          // Reset Posts to update
+          commit(types.SET_OPTION, { name: 'posts', data: null })
+          commit(types.SET_OPTION, { name: 'isEditing', data: false })
           commit(types.RESET_INPUTS, ['title', 'text'])
-          commit(types.SET_ID, null)
+          commit(types.SET_OPTION, { name: 'idEditing', data: null })
+
+          // Get updated posts
           this.dispatch('getPosts')
         })
         .catch(err => console.log(err))

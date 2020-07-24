@@ -8,11 +8,5 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
-  beforeCreate() {
-    this.$store.dispatch('checkToken')
-    if (this.$store.state.tokenId) {
-      this.$router.push('/admin').catch(() => {})
-    }
-  },
   render: h => h(App),
 }).$mount('#app')

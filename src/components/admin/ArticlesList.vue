@@ -30,6 +30,8 @@ import Button from '@/components/form/Button'
 import Title from '@/components/basics/Title'
 import List from '@/components/list/List'
 
+import types from '@/store/types'
+
 export default {
   name: 'ArticlesList',
   components: {
@@ -60,12 +62,12 @@ export default {
   methods: {
     nextHandler() {
       if (this.currentPage < this.pageNumbers) {
-        this.$store.commit('INC_PAGE')
+        this.$store.commit(types.INC_PAGE)
       }
     },
     beforeHandler() {
       if (this.currentPage > 1) {
-        this.$store.commit('DEC_PAGE')
+        this.$store.commit(types.DEC_PAGE)
       }
     },
   },

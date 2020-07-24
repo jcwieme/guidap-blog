@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import types from '@/store/types'
+
 export default {
   name: 'Input',
   props: {
@@ -51,10 +53,10 @@ export default {
   },
   watch: {
     inputData: function(value) {
-      this.$store.commit('TYPE_INPUT', { name: this.name, input: value })
+      this.$store.commit(types.SET_INPUT, { name: this.name, input: value })
 
       if (this.name === 'username' || this.name === 'password') {
-        this.$store.commit('SET_ERROR', null)
+        this.$store.commit(types.SET_OPTION, { name: 'err', data: null })
       }
     },
   },

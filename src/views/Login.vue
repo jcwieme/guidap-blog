@@ -20,10 +20,13 @@
         propsClass="input__login input__login--password"
       />
       <Button text="Let's go" propsClass="button__login" :action="login" />
-      <div class="login__error" v-show="error">
-        Bad username or password!
-      </div>
     </div>
+
+    <ErrorMessage
+      text="Bad username or password!"
+      propsClass="login__error"
+      v-show="error"
+    />
   </div>
 </template>
 
@@ -32,6 +35,7 @@ import Button from '@/components/form/Button'
 import Input from '@/components/form/Input'
 import Title from '@/components/basics/Title'
 import ImageCpt from '@/components/basics/Image'
+import ErrorMessage from '@/components/basics/ErrorMessage'
 
 export default {
   name: 'Login',
@@ -40,6 +44,7 @@ export default {
     Input,
     Title,
     ImageCpt,
+    ErrorMessage,
   },
   data() {
     return {

@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import types from '@/store/types'
+
 export default {
   name: 'Textarea',
   props: {
@@ -51,8 +53,9 @@ export default {
   },
   watch: {
     inputText: function(value) {
-      this.$store.commit('TYPE_INPUT', { name: this.name, input: value })
-      this.$store.commit('SET_ERROR', null)
+      this.$store.commit(types.SET_INPUT, { name: this.name, input: value })
+      if (this.$store.state.err)
+        this.$store.commit(types.SET_OPTION, { name: 'err', data: null })
     },
   },
 }

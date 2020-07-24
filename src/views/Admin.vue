@@ -66,13 +66,18 @@ export default {
   methods: {
     addOrEditFrameHandler(id) {
       if (id) {
-        this.$store.commit(types.SET_ID, id)
+        // Is editing
+        this.$store.commit(types.SET_OPTION, { name: 'idEditing', data: id })
+
+        // Get title and text to edit
         this.titleToEdit = this.$store.state.posts.filter(
           el => el.id == this.idEditing,
         )[0].title
         this.textToEdit = this.$store.state.posts.filter(
           el => el.id == this.idEditing,
         )[0].body
+
+        // Pré-completed form
         this.$store.commit(types.TYPE_INPUT, {
           name: 'title',
           input: this.titleToEdit,
@@ -82,7 +87,9 @@ export default {
           input: this.textToEdit,
         })
       }
-      this.$store.commit(types.SET_BOOL, { name: 'isEditing', bool: true })
+
+      // is adding
+      this.$store.commit(types.SET_OPTION, { name: 'isEditing', data: true })
     },
     addOrEditHandler() {
       if (this.idEditing) {
